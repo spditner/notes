@@ -30,3 +30,15 @@
        stable"
     apt-get install -y docker-ce
     EOF
+
+## Convert proxmox images
+
+    git clone https://github.com/ganehag/pve-vma-docker.git
+    docker build -t vmaconverter .
+    mkdir backup
+    <move image in there>
+    docker run -it -v $PWD/backup:/backup vmaconverter:latest /bin/bash
+    vma extract ./file.vma -v ./vmaextract
+    qemu-img convert vmaextract/disk-drive-scsi0.raw -O vdi disk.vdi
+
+* See (http://xpbydoing.blogspot.com/2018/02/proxmox-backup-to-virtualbox.html)[http://xpbydoing.blogspot.com/2018/02/proxmox-backup-to-virtualbox.html]
